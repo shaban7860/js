@@ -1,0 +1,255 @@
+Step 1: Session 
+
+ALTER SESSION SET "_ORACLE_SCRIPT"=true;  
+
+CREATE USER iNB_Project IDENTIFIED BY iNB_Project123;
+
+GRANT CONNECT,DBA TO iNB_Project;
+_______________________________
+
+Step 2 : New Connection 
+________________________________
+
+Step 3 : Table Creation
+
+_____________________________________________________________________________________
+--Login_Details_Table
+CREATE TABLE login_details(
+login_id VARCHAR(50),
+user_id VARCHAR(50) NOT NULL,
+password VARCHAR(50) NOT NULL,
+    CONSTRAINT login_id_pk PRIMARY KEY(login_id)
+);
+    
+CREATE SEQUENCE login_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO login_details 
+VALUES('LGINB'|| login_details_sequence.NEXTVAL, 'KK25', 'KK2508');
+INSERT INTO login_details 
+VALUES('LGINB'|| login_details_sequence.NEXTVAL, 'RD01', 'RD0001');
+INSERT INTO login_details 
+VALUES('LGINB'|| login_details_sequence.NEXTVAL, 'SP007', 'Sp07');
+INSERT INTO login_details 
+VALUES('LGINB'|| login_details_sequence.NEXTVAL, 'SK002', 'SK02');
+INSERT INTO login_details 
+VALUES('LGINB'|| login_details_sequence.NEXTVAL, 'PZ003', 'PZ03');
+
+-------------------------------------------------------------------------------------------------
+--Customer_Details_Table
+CREATE TABLE customer_details (
+customer_id VARCHAR(20) NOT NULL,
+first_name VARCHAR(20) NOT NULL,
+last_name VARCHAR(20) NOT NULL,
+user_name VARCHAR(20) NOT NULL,
+password VARCHAR(20) NOT NULL,
+address_line_1 VARCHAR(20) NOT NULL,
+address_line_2 VARCHAR(20) NOT NULL,
+address_line_3 VARCHAR(20) NOT NULL,
+city VARCHAR(20) NOT NULL,
+state VARCHAR(20) NOT NULL,
+zip number(10),
+phone number(10) NOT NULL,
+cell number(10),
+email VARCHAR(20) NOT NULL,
+login_id VARCHAR(20) NOT NULL,
+status VARCHAR(20) NOT NULL,
+CONSTRAINT customer_id_pk PRIMARY KEY(customer_id),
+CONSTRAINT login_id_fk FOREIGN KEY(login_id) REFERENCES login_details(login_id)
+);
+
+CREATE SEQUENCE customer_details_sequence
+START WITH 001 INCREMENT BY 1;
+
+INSERT INTO customer_details 
+VALUES('CID'|| customer_details_sequence.NEXTVAL, 'Kavita', 'Khajure', 'KK25', 'KK2508', 'Sanchay Society', 'MSEB Road', 'Sawarkar Nagar', 'Thane', 'Maharashtra', 400606, 1234567890, 9876543210, 'kavitak@gmail.com', 'LGINB1', 'Active');
+INSERT INTO customer_details 
+VALUES('CID'|| customer_details_sequence.NEXTVAL, 'Rohit', 'Dagade', 'RD01', 'RD0001', 'Sanchay Society', 'LBS Road', 'Sawarkar Nagar', 'Thane', 'Maharashtra', 400606, 1234567890, 9876543210, 'kavitak@gmail.com', 'LGINB2', 'Active');
+INSERT INTO customer_details 
+VALUES('CID'|| customer_details_sequence.NEXTVAL, 'Siddhesh', 'Patangrao', 'SP007', 'Sp07', 'Sanchay Society', 'M.G. Road', 'Sawarkar Nagar', 'Thane', 'Maharashtra', 400606, 1234567890, 9876543210, 'kavitak@gmail.com', 'LGINB3', 'Active');
+INSERT INTO customer_details 
+VALUES('CID'|| customer_details_sequence.NEXTVAL, 'Shaban', 'Khan', 'SK002', 'SK02', 'Sanchay Society', 'S.S. Road', 'Sawarkar Nagar', 'Thane', 'Maharashtra', 400606, 1234567890, 9876543210, 'kavitak@gmail.com', 'LGINB4', 'Active');
+INSERT INTO customer_details 
+VALUES('CID'|| customer_details_sequence.NEXTVAL, 'Prashant', 'Zunzarrao', 'PZ003', 'PZ03', 'Sanchay Society', 'K.K. Road', 'Sawarkar Nagar', 'Thane', 'Maharashtra', 400606, 1234567890, 9876543210, 'kavitak@gmail.com', 'LGINB5', 'Active');
+
+-------------------------------------------------------------------------------------
+--Savings_Account_Details_Table
+CREATE TABLE saving_account_details(
+account_type_id VARCHAR(50),
+opening_date DATE NOT NULL ,
+minimum_balance VARCHAR(50)NOT NULL,
+current_balance  VARCHAR(50)NOT NULL,
+rate_of_interest NUMBER(3,2)NOT NULL,
+    CONSTRAINT account_type_id_pk PRIMARY KEY(account_type_id)
+
+);
+CREATE SEQUENCE saving_account_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO saving_account_details 
+VALUES('SACC'||saving_account_details_sequence.NEXTVAL, '08-AUG-2022', 1000, '50000', 3);
+INSERT INTO saving_account_details 
+VALUES('SACC'||saving_account_details_sequence.NEXTVAL, '10-AUG-2022', 1000, '45000', 3);
+INSERT INTO saving_account_details 
+VALUES('SACC'|| saving_account_details_sequence.NEXTVAL, '12-AUG-2022', 1000, '45000', 3);
+INSERT INTO saving_account_details 
+VALUES('SACC'|| saving_account_details_sequence.NEXTVAL, '12-AUG-2022', 1000, '50000', 3);
+INSERT INTO saving_account_details 
+VALUES('SACC'|| saving_account_details_sequence.NEXTVAL, '13-AUG-2022', 1000, '1000', 3);
+
+--------------------------------------------------------------------------------------------------------------------
+
+--Current_Account_Details_Table
+CREATE TABLE current_account_details(
+account_type_id VARCHAR(50),
+opening_date DATE NOT NULL ,
+initial_overdraft_balance NUMBER(10) NOT NULL,
+current_overdraft_balance NUMBER(10) NOT NULL,
+current_balance  NUMBER(10) NOT NULL,
+    CONSTRAINT account_type_idd_pk PRIMARY KEY(account_type_id)
+);
+
+CREATE SEQUENCE current_account_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO current_account_details 
+VALUES('CACC'|| current_account_details_sequence.NEXTVAL, '08-SEP-2022', 50000, 50000, 5000);
+INSERT INTO current_account_details 
+VALUES('CACC'|| current_account_details_sequence.NEXTVAL, '12-SEP-2022', 60000, 60000, 45000);
+INSERT INTO current_account_details 
+VALUES('CACC'|| current_account_details_sequence.NEXTVAL, '12-OCT-2022', 50000, 50000, 50000);
+
+----------------------------------------------------------------------------------------------------
+
+--Fixed_Deposit_Account_Details_Table
+CREATE TABLE fixed_deposite_account_details(
+account_type_id VARCHAR(20) NOT NULL,
+opening_date DATE,
+maturity_date DATE,
+initial_amount NUMBER NOT NULL,
+maturity_amount NUMBER(10,2),
+fd_id VARCHAR(20) NOT NULL,
+    CONSTRAINT account_type_iddd_pk PRIMARY KEY(account_type_id)
+);
+
+CREATE SEQUENCE fixed_deposite_account_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO fixed_deposite_account_details 
+VALUES('FID'|| fixed_deposite_account_details_sequence.NEXTVAL, '08-SEP-2022', '08-SEP-2023', 50000, 65000, 001);
+INSERT INTO fixed_deposite_account_details 
+VALUES('FID'|| fixed_deposite_account_details_sequence.NEXTVAL, '10-SEP-2022', '10-SEP-2024', 45000, 95472, 002);
+INSERT INTO fixed_deposite_account_details 
+VALUES('FID'|| fixed_deposite_account_details_sequence.NEXTVAL, '12-OCT-2022', '12-OCT-2025', 45000, 99290.88, 003);
+-------------------------------------------------------------------------------------------------
+
+--Account_Details_table
+
+CREATE TABLE account_details (
+    account_id VARCHAR(50),
+    saving_account_type_id VARCHAR(50),
+    current_account_type_id VARCHAR(50),
+    fixed_deposit_account_type_id VARCHAR(50),
+    customer_id VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    CONSTRAINT account_id_pk PRIMARY KEY(account_id),
+    CONSTRAINT saving_account_type_id_fk FOREIGN KEY(saving_account_type_id) REFERENCES saving_account_details(account_type_id),
+    CONSTRAINT current_account_type_id_fk FOREIGN KEY(current_account_type_id) REFERENCES current_account_details(account_type_id),
+    CONSTRAINT fixed_deposit_account_type_id_fk FOREIGN KEY(fixed_deposit_account_type_id) REFERENCES fixed_deposite_account_details(account_type_id),
+    CONSTRAINT customer_id_fk FOREIGN KEY(customer_id) REFERENCES customer_details(customer_id)
+);
+
+CREATE SEQUENCE account_details_sequence
+START WITH 001
+INCREMENT BY 1; 
+
+INSERT INTO account_details 
+VALUES('INB'|| account_details_sequence.NEXTVAL, 'SACC1', 'CACC1', 'FID1', 'CID1', 'Active');
+INSERT INTO account_details 
+VALUES('INB'|| account_details_sequence.NEXTVAL, 'SACC2', NULL, 'FID2', 'CID2', 'Active');
+INSERT INTO account_details 
+VALUES('INB'|| account_details_sequence.NEXTVAL, 'SACC3', 'CACC2', 'FID3', 'CID3', 'Active');
+INSERT INTO account_details 
+VALUES('INB'|| account_details_sequence.NEXTVAL, 'SACC4', 'CACC3', NULL, 'CID4', 'Active');
+INSERT INTO account_details 
+VALUES('INB'|| account_details_sequence.NEXTVAL, 'SACC5', NULL, NULL, 'CID5', 'Active');
+
+---------------------------------------------------------------------------------------------------------------
+--Fixed_Deposite_Rate_of_Interest_Table
+
+CREATE TABLE fd_rate_of_interest_details(
+fd_id  VARCHAR(50),
+validity VARCHAR(50) NOT NULL,
+rate_of_interest NUMBER(3,2)NOT NULL,
+    CONSTRAINT fd_id_pk PRIMARY KEY(fd_id)
+    );
+    
+    
+      CREATE SEQUENCE fd_rate_of_interest_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO fd_rate_of_interest_details VALUES('RID'|| fd_rate_of_interest_details_sequence.NEXTVAL,'12 months','3');
+INSERT INTO fd_rate_of_interest_details VALUES('RID'|| fd_rate_of_interest_details_sequence.NEXTVAL,'24 months','4');
+INSERT INTO fd_rate_of_interest_details VALUES('RID'|| fd_rate_of_interest_details_sequence.NEXTVAL,'36 months','5');
+---------------------------------------------------------------------------------------------------
+
+--Cheque_Details_Table
+
+CREATE TABLE cheque_details(
+cheque_no  VARCHAR(50),
+cheque_date DATE NOT NULL,
+cheque_amount  VARCHAR(50) NOT NULL,
+beneficiary_name  VARCHAR(50) NOT NULL,
+from_account_id  VARCHAR(50) NOT NULL,
+    CONSTRAINT cheque_no_pk PRIMARY KEY(cheque_no)
+
+);
+
+CREATE SEQUENCE cheque_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO cheque_details VALUES('CHQ'|| cheque_details_sequence.NEXTVAL,'25-Aug-2022','50000','Kavita Khajure','234567');
+INSERT INTO cheque_details VALUES('CHQ'|| cheque_details_sequence.NEXTVAL,'21-Aug-2022','60000','Rohit Dagade','234568');
+INSERT INTO cheque_details VALUES('CHQ'|| cheque_details_sequence.NEXTVAL,'27-Aug-2022','40000','Prashant Zunzzarao','234123');
+INSERT INTO cheque_details VALUES('CHQ'|| cheque_details_sequence.NEXTVAL,'28-Aug-2022','30000','Siddhesh Patangrao','234456');
+INSERT INTO cheque_details VALUES('CHQ'|| cheque_details_sequence.NEXTVAL,'22-Aug-2022','20000','Shaban khan','234667');
+--------------------------------------------------------------------------------------------------
+--Bank_Slip_Table
+CREATE TABLE bank_slip_details(
+slip_id VARCHAR(20) NOT NULL,
+slip_date DATE,
+cheque_no VARCHAR(20) NOT NULL,
+cheque_date DATE,
+payer_bank VARCHAR(20) NOT NULL,
+payer_account_id VARCHAR(20) NOT NULL,
+amount NUMBER(10,2),
+to_account_id VARCHAR(20) NOT NULL,
+    CONSTRAINT slip_id_pk PRIMARY KEY(slip_id),
+    CONSTRAINT cheque_no_fk FOREIGN KEY(cheque_no) REFERENCES cheque_details(cheque_no),
+    CONSTRAINT to_account_id_fk FOREIGN KEY(to_account_id) REFERENCES account_details(account_id)
+);
+
+CREATE SEQUENCE bank_slip_details_sequence
+START WITH 001
+INCREMENT BY 1;
+
+INSERT INTO bank_slip_details VALUES('BSD'||bank_slip_details_sequence.NEXTVAL,'22-AUG-2022','CHQ1','22-AUG-2022','Axis bank','223','50000','INB1');
+INSERT INTO bank_slip_details VALUES('BSD'||bank_slip_details_sequence.NEXTVAL,'22-AUG-2022','CHQ2','23-AUG-2022','Axis bank','223','50000','INB2');
+INSERT INTO bank_slip_details VALUES('BSD'||bank_slip_details_sequence.NEXTVAL,'22-AUG-2022','CHQ3','23-AUG-2022','Axis bank','223','50000','INB3');
+INSERT INTO bank_slip_details VALUES('BSD'||bank_slip_details_sequence.NEXTVAL,'22-AUG-2022','CHQ4','24-AUG-2022','Axis bank','223','50000','INB4');    
+INSERT INTO bank_slip_details VALUES('BSD'||bank_slip_details_sequence.NEXTVAL,'22-AUG-2022','CHQ5','25-AUG-2022','Axis bank','223','50000','INB5');
+
+
+
+
+
+    
+
+
+
